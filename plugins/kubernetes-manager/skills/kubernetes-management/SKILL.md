@@ -1,6 +1,6 @@
 ---
 name: kubernetes-management
-description: Use when a project needs Kubernetes integration, manifest generation, Docker Desktop Kubernetes local development support, OKE or Azure AKS cloud deployment support, kubectl validation, deployment troubleshooting, or Kubernetes resource operations.
+description: Use when a project needs Kubernetes integration, manifest generation, Docker Desktop Kubernetes local development support, OKE or Azure AKS cloud deployment support, kubectl validation, deployment troubleshooting, workload operations, cluster administration, or Kubernetes resource operations.
 ---
 
 # Kubernetes Management
@@ -18,6 +18,7 @@ Use this skill when the user asks to integrate an app or service with Kubernetes
 - Keep local Docker Desktop assumptions separate from production cluster assumptions.
 - For cloud deployments, confirm the target provider, subscription/tenancy, region, cluster, namespace, image registry, and current `kubectl` context before applying.
 - Treat "AKE" as Azure Kubernetes Service unless the user clarifies a different provider. Azure's CLI surface is `az aks`.
+- For cluster administration, prefer read-only inventory and diagnostics first. Require explicit user intent before destructive or cost-impacting actions such as deleting clusters, deleting node pools, scaling to zero, draining nodes, or stopping clusters.
 
 ## Docker Desktop Kubernetes Workflow
 
@@ -74,6 +75,57 @@ Before applying to OKE or AKS:
 4. Run a dry run and diff first.
 5. Apply only after the target context and namespace are clear.
 
+## Cluster Administration Workflow
+
+Use this workflow when the user asks to operate or administer Kubernetes beyond applying manifests.
+
+1. Identify the target:
+   - Local `docker-desktop`
+   - OKE
+   - Azure AKS
+   - Another kubeconfig context
+2. Run read-only discovery first:
+   - `kubectl config current-context`
+   - `kubectl get nodes -o wide`
+   - `kubectl get namespaces`
+   - `kubectl get pods --all-namespaces`
+   - `kubectl get events --all-namespaces --sort-by=.lastTimestamp`
+3. For workload operations, use `kubectl`:
+   - Scale deployments or statefulsets.
+   - Restart rollouts.
+   - Pause/resume rollouts.
+   - Check rollout status and history.
+   - Inspect pod logs, descriptions, events, and resource usage.
+4. For node operations, treat cordon/drain as disruptive. Confirm the node name and context before using them.
+5. For provider-managed node pools and cluster lifecycle:
+   - Use `az aks` and `az aks nodepool` for AKS.
+   - Use `oci ce cluster`, `oci ce node-pool`, and `oci ce work-request` for OKE.
+6. After any mutation, verify the result with read-only commands.
+
+## Supported Administration Capabilities
+
+Common Kubernetes:
+
+- Inventory: contexts, nodes, namespaces, pods, deployments, services, ingress, events.
+- Diagnostics: describe nodes/pods/deployments, get logs, show rollout status/history, inspect resource usage when metrics server is available.
+- Workload operations: scale deployments, restart deployments, pause/resume rollouts, undo rollouts, delete pods for controller-managed restart behavior.
+- Node operations: cordon, uncordon, and drain with explicit confirmation.
+
+Azure AKS:
+
+- List/show clusters.
+- Start/stop clusters.
+- Get credentials.
+- List/show node pools.
+- Scale/start/stop/delete node pools with explicit `-Apply`.
+
+OKE:
+
+- List/show clusters.
+- List addons and work requests.
+- List/show node pools.
+- Delete clusters, node pools, or individual nodes only with explicit `-Apply`.
+
 ## Project Integration Checklist
 
 When integrating a project, produce or update:
@@ -97,6 +149,10 @@ Use scripts from this plugin directory when they fit the task:
 - `scripts/connect-oke-kubeconfig.ps1`: adds an OKE cluster to kubeconfig using OCI CLI.
 - `scripts/connect-aks-kubeconfig.ps1`: adds an Azure AKS cluster to kubeconfig using Azure CLI. Use this for AKE requests unless clarified.
 - `scripts/cloud-kubernetes-apply.ps1`: validates, diffs, and applies manifests to a non-local Kubernetes context.
+- `scripts/kubernetes-cluster-report.ps1`: creates a read-only cluster health and inventory report.
+- `scripts/kubernetes-admin.ps1`: runs common Kubernetes administration actions through `kubectl`.
+- `scripts/aks-admin.ps1`: runs AKS cluster and node pool administration through Azure CLI.
+- `scripts/oke-admin.ps1`: runs OKE cluster, node pool, addon, and work request administration through OCI CLI.
 - `scripts/scaffold-kubernetes-project.ps1`: creates starter `k8s/` manifests for a service.
 - `scripts/kubernetes-apply.ps1`: validates, diffs, and applies a manifest directory.
 

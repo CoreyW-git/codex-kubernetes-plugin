@@ -1,7 +1,7 @@
 {
   "name": "kubernetes-manager",
-  "version": "0.2.0",
-  "description": "Codex workflow support for integrating projects with Kubernetes, Docker Desktop Kubernetes, and managed cloud Kubernetes.",
+  "version": "0.3.0",
+  "description": "Codex workflow support for Kubernetes project integration, workload operations, and managed cluster administration.",
   "author": {
     "name": "Pipsq",
     "email": "",
@@ -24,8 +24,8 @@
   "skills": "./skills/",
   "interface": {
     "displayName": "Kubernetes Manager",
-    "shortDescription": "Integrate projects with local and cloud Kubernetes clusters.",
-    "longDescription": "Adds a Codex skill and helper scripts for assessing a project, generating Kubernetes manifests, checking Docker Desktop Kubernetes, connecting to OKE or Azure AKS clusters, validating resources, and applying workloads through kubectl.",
+    "shortDescription": "Integrate projects, operate workloads, and administer Kubernetes clusters.",
+    "longDescription": "Adds a Codex skill and helper scripts for assessing a project, generating Kubernetes manifests, checking Docker Desktop Kubernetes, connecting to OKE or Azure AKS clusters, administering cluster resources and node pools, validating resources, and applying workloads through kubectl.",
     "developerName": "Pipsq",
     "category": "Developer Tools",
     "capabilities": [
@@ -41,7 +41,9 @@
       "Use Kubernetes Manager to integrate this project with Kubernetes.",
       "Check whether Docker Desktop Kubernetes is ready for local development.",
       "Generate Kubernetes manifests for this service and validate them.",
-      "Connect kubectl to OKE or Azure AKS and deploy this project."
+      "Connect kubectl to OKE or Azure AKS and deploy this project.",
+      "Create a Kubernetes cluster report and inspect failing workloads.",
+      "Scale a deployment or managed node pool."
     ],
     "brandColor": "#326CE5",
     "composerIcon": "./assets/icon.svg",
