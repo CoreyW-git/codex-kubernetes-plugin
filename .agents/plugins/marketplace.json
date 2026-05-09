@@ -1,0 +1,20 @@
+{
+  "name": "pipsq-local-plugins",
+  "interface": {
+    "displayName": "Pipsq Local Plugins"
+  },
+  "plugins": [
+    {
+      "name": "kubernetes-manager",
+      "source": {
+        "source": "local",
+        "path": "./plugins/kubernetes-manager"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer Tools"
+    }
+  ]
+}

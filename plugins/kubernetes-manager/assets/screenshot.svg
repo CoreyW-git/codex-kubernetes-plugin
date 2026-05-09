@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-label="Kubernetes Manager screenshot placeholder">
+  <rect width="960" height="540" fill="#F8FAFC"/>
+  <rect x="56" y="48" width="848" height="444" rx="8" fill="#FFFFFF" stroke="#CBD5E1"/>
+  <text x="88" y="96" fill="#0F172A" font-family="Segoe UI, Arial, sans-serif" font-size="28" font-weight="700">Kubernetes Manager</text>
+  <text x="88" y="132" fill="#475569" font-family="Segoe UI, Arial, sans-serif" font-size="16">Docker Desktop Kubernetes checks, manifests, validation, and apply workflows.</text>
+  <rect x="88" y="168" width="360" height="236" rx="6" fill="#EFF6FF" stroke="#93C5FD"/>
+  <text x="112" y="208" fill="#1E3A8A" font-family="Consolas, monospace" font-size="15">kubectl config use-context docker-desktop</text>
+  <text x="112" y="242" fill="#1E3A8A" font-family="Consolas, monospace" font-size="15">kubectl get nodes</text>
+  <text x="112" y="276" fill="#1E3A8A" font-family="Consolas, monospace" font-size="15">kubectl apply --dry-run=client -k k8s</text>
+  <rect x="496" y="168" width="360" height="236" rx="6" fill="#F0FDF4" stroke="#86EFAC"/>
+  <text x="520" y="208" fill="#14532D" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="700">Generated resources</text>
+  <text x="520" y="246" fill="#166534" font-family="Segoe UI, Arial, sans-serif" font-size="15">Deployment</text>
+  <text x="520" y="278" fill="#166534" font-family="Segoe UI, Arial, sans-serif" font-size="15">Service</text>
+  <text x="520" y="310" fill="#166534" font-family="Segoe UI, Arial, sans-serif" font-size="15">Kustomization</text>
+</svg>

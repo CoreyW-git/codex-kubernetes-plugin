@@ -1,0 +1,48 @@
+{
+  "name": "kubernetes-manager",
+  "version": "0.1.0",
+  "description": "Codex workflow support for integrating projects with Kubernetes and Docker Desktop Kubernetes.",
+  "author": {
+    "name": "Pipsq",
+    "email": "",
+    "url": ""
+  },
+  "homepage": "https://docs.docker.com/desktop/use-desktop/kubernetes/",
+  "repository": "",
+  "license": "MIT",
+  "keywords": [
+    "kubernetes",
+    "docker-desktop",
+    "kubectl",
+    "devops",
+    "deployment"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Kubernetes Manager",
+    "shortDescription": "Integrate projects with Kubernetes and local Docker Desktop clusters.",
+    "longDescription": "Adds a Codex skill and helper scripts for assessing a project, generating Kubernetes manifests, checking Docker Desktop Kubernetes, validating resources, and applying workloads through kubectl.",
+    "developerName": "Pipsq",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Interactive",
+      "Read",
+      "Write",
+      "Shell"
+    ],
+    "websiteURL": "https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/",
+    "privacyPolicyURL": "",
+    "termsOfServiceURL": "",
+    "defaultPrompt": [
+      "Use Kubernetes Manager to integrate this project with Kubernetes.",
+      "Check whether Docker Desktop Kubernetes is ready for local development.",
+      "Generate Kubernetes manifests for this service and validate them."
+    ],
+    "brandColor": "#326CE5",
+    "composerIcon": "./assets/icon.svg",
+    "logo": "./assets/logo.svg",
+    "screenshots": [
+      "./assets/screenshot.svg"
+    ]
+  }
+}

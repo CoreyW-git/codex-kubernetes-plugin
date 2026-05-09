@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 96" role="img" aria-label="Kubernetes Manager logo">
+  <rect width="360" height="96" rx="14" fill="#0F172A"/>
+  <g transform="translate(18 16)">
+    <rect width="64" height="64" rx="12" fill="#326CE5"/>
+    <path fill="#fff" d="M32 8 52.8 20v24L32 56 11.2 44V20L32 8Zm0 6.5L16.8 23.3v17.4L32 49.5l15.2-8.8V23.3L32 14.5Z"/>
+    <circle cx="32" cy="32" r="6" fill="#fff"/>
+  </g>
+  <text x="98" y="42" fill="#F8FAFC" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="700">Kubernetes Manager</text>
+  <text x="98" y="66" fill="#CBD5E1" font-family="Segoe UI, Arial, sans-serif" font-size="14">Project onboarding and local cluster workflows</text>
+</svg>

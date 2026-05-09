@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Kubernetes Manager icon">
+  <rect width="64" height="64" rx="12" fill="#326CE5"/>
+  <path fill="#fff" d="M32 8 52.8 20v24L32 56 11.2 44V20L32 8Zm0 6.5L16.8 23.3v17.4L32 49.5l15.2-8.8V23.3L32 14.5Z"/>
+  <circle cx="32" cy="32" r="6" fill="#fff"/>
+  <path stroke="#fff" stroke-width="4" stroke-linecap="round" d="M32 18v8m0 12v8M18 32h8m12 0h8m-23.9-9.9 5.7 5.7m8.4 8.4 5.7 5.7m0-19.8-5.7 5.7m-8.4 8.4-5.7 5.7"/>
+</svg>
