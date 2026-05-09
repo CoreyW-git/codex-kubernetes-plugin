@@ -1,7 +1,7 @@
 {
   "name": "kubernetes-manager",
-  "version": "0.3.0",
-  "description": "Codex workflow support for Kubernetes project integration, workload operations, and managed cluster administration.",
+  "version": "0.4.0",
+  "description": "Codex workflow support and callable tools for Kubernetes project integration, workload operations, and managed cluster administration.",
   "author": {
     "name": "Pipsq",
     "email": "",
@@ -22,17 +22,19 @@
     "deployment"
   ],
   "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
   "interface": {
     "displayName": "Kubernetes Manager",
     "shortDescription": "Integrate projects, operate workloads, and administer Kubernetes clusters.",
-    "longDescription": "Adds a Codex skill and helper scripts for assessing a project, generating Kubernetes manifests, checking Docker Desktop Kubernetes, connecting to OKE or Azure AKS clusters, administering cluster resources and node pools, validating resources, and applying workloads through kubectl.",
+    "longDescription": "Adds a Codex skill, callable MCP tools, and helper scripts for assessing a project, generating Kubernetes manifests, checking Docker Desktop Kubernetes, connecting to OKE or Azure AKS clusters, administering cluster resources and node pools, validating resources, and applying workloads through kubectl.",
     "developerName": "Pipsq",
     "category": "Developer Tools",
     "capabilities": [
       "Interactive",
       "Read",
       "Write",
-      "Shell"
+      "Shell",
+      "Tools"
     ],
     "websiteURL": "https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/",
     "privacyPolicyURL": "",
@@ -40,10 +42,7 @@
     "defaultPrompt": [
       "Use Kubernetes Manager to integrate this project with Kubernetes.",
       "Check whether Docker Desktop Kubernetes is ready for local development.",
-      "Generate Kubernetes manifests for this service and validate them.",
-      "Connect kubectl to OKE or Azure AKS and deploy this project.",
-      "Create a Kubernetes cluster report and inspect failing workloads.",
-      "Scale a deployment or managed node pool."
+      "Call Kubernetes Manager tools for cluster administration."
     ],
     "brandColor": "#326CE5",
     "composerIcon": "./assets/icon.svg",

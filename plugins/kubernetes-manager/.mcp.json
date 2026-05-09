@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "kubernetes-manager": {
+      "command": "node",
+      "args": [
+        "./scripts/kubernetes-mcp-server.js"
+      ]
+    }
+  }
+}

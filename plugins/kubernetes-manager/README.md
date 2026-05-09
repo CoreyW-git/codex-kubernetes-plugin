@@ -1,10 +1,11 @@
 # Kubernetes Manager
 
-Kubernetes Manager is a Codex plugin for bringing new projects into Kubernetes, using Docker Desktop Kubernetes for local development, deploying to managed cloud Kubernetes, and administering Kubernetes clusters.
+Kubernetes Manager is a Codex plugin for bringing new projects into Kubernetes, using Docker Desktop Kubernetes for local development, deploying to managed cloud Kubernetes, administering Kubernetes clusters, and exposing Kubernetes operations as callable Codex tools.
 
 ## What It Adds
 
 - A Codex skill for Kubernetes project onboarding, manifest generation, validation, workload operations, and cluster administration.
+- A local MCP server that exposes Kubernetes actions as directly callable tools in Codex sessions.
 - PowerShell helper scripts for Windows, Docker Desktop, OKE, and Azure AKS workflows.
 - A repo-local marketplace entry so the plugin can be carried through GitHub and made available to other projects.
 
@@ -13,8 +14,10 @@ Kubernetes Manager is a Codex plugin for bringing new projects into Kubernetes, 
 ```text
 plugins/kubernetes-manager/
   .codex-plugin/plugin.json
+  .mcp.json
   skills/kubernetes-management/SKILL.md
   scripts/
+    kubernetes-mcp-server.js
     check-docker-desktop-kubernetes.ps1
     check-cloud-kubernetes-prereqs.ps1
     connect-aks-kubeconfig.ps1
@@ -105,6 +108,26 @@ OKE administration:
 ```
 
 Destructive or cost-impacting actions require `-Apply`; otherwise scripts print the command they would run.
+
+## Callable Tools
+
+When the plugin is installed and Codex loads its MCP server, sessions can call tools directly instead of only asking Codex to run scripts.
+
+Exposed tools:
+
+- `kubernetes_current_context`
+- `kubernetes_check_docker_desktop`
+- `kubernetes_cloud_prereqs`
+- `kubernetes_connect_oke`
+- `kubernetes_connect_aks`
+- `kubernetes_apply`
+- `kubernetes_cloud_apply`
+- `kubernetes_cluster_report`
+- `kubernetes_admin`
+- `aks_admin`
+- `oke_admin`
+
+The tools use the same guarded scripts. Mutating actions still require explicit `apply: true`.
 
 References:
 

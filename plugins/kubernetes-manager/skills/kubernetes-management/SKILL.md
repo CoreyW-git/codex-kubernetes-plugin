@@ -5,7 +5,7 @@ description: Use when a project needs Kubernetes integration, manifest generatio
 
 # Kubernetes Management
 
-Use this skill when the user asks to integrate an app or service with Kubernetes, prepare manifests, operate a local Docker Desktop Kubernetes cluster, connect to managed cloud Kubernetes, validate Kubernetes resources, or apply workloads with `kubectl`.
+Use this skill when the user asks to integrate an app or service with Kubernetes, prepare manifests, operate a local Docker Desktop Kubernetes cluster, connect to managed cloud Kubernetes, validate Kubernetes resources, apply workloads with `kubectl`, or use the Kubernetes Manager callable tools.
 
 ## Operating Principles
 
@@ -19,6 +19,7 @@ Use this skill when the user asks to integrate an app or service with Kubernetes
 - For cloud deployments, confirm the target provider, subscription/tenancy, region, cluster, namespace, image registry, and current `kubectl` context before applying.
 - Treat "AKE" as Azure Kubernetes Service unless the user clarifies a different provider. Azure's CLI surface is `az aks`.
 - For cluster administration, prefer read-only inventory and diagnostics first. Require explicit user intent before destructive or cost-impacting actions such as deleting clusters, deleting node pools, scaling to zero, draining nodes, or stopping clusters.
+- When the plugin's MCP server is available, prefer the directly callable Kubernetes Manager tools over ad hoc shell commands for supported operations.
 
 ## Docker Desktop Kubernetes Workflow
 
@@ -125,6 +126,24 @@ OKE:
 - List addons and work requests.
 - List/show node pools.
 - Delete clusters, node pools, or individual nodes only with explicit `-Apply`.
+
+## Callable Tool Workflow
+
+This plugin exposes a local MCP server through `.mcp.json`. When loaded, use these tools for supported operations:
+
+- `kubernetes_current_context`: read the active kubeconfig context.
+- `kubernetes_check_docker_desktop`: check local Docker Desktop Kubernetes.
+- `kubernetes_cloud_prereqs`: check OKE or AKS/AKE CLI prerequisites.
+- `kubernetes_connect_oke`: write kubeconfig for OKE.
+- `kubernetes_connect_aks`: write kubeconfig for Azure AKS/AKE.
+- `kubernetes_apply`: dry-run, diff, or apply local manifests.
+- `kubernetes_cloud_apply`: guarded cloud deployment that rejects `docker-desktop`.
+- `kubernetes_cluster_report`: generate a cluster inventory and health report.
+- `kubernetes_admin`: common `kubectl` administration.
+- `aks_admin`: AKS cluster and node pool administration.
+- `oke_admin`: OKE cluster, node pool, addon, and work request administration.
+
+Mutating tools require `apply: true`; otherwise they report the command that would be executed.
 
 ## Project Integration Checklist
 
