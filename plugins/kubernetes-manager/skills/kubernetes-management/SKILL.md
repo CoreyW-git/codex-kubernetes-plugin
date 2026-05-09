@@ -1,11 +1,11 @@
 ---
 name: kubernetes-management
-description: Use when a project needs Kubernetes integration, manifest generation, Docker Desktop Kubernetes local development support, kubectl validation, deployment troubleshooting, or Kubernetes resource operations.
+description: Use when a project needs Kubernetes integration, manifest generation, Docker Desktop Kubernetes local development support, OKE or Azure AKS cloud deployment support, kubectl validation, deployment troubleshooting, or Kubernetes resource operations.
 ---
 
 # Kubernetes Management
 
-Use this skill when the user asks to integrate an app or service with Kubernetes, prepare manifests, operate a local Docker Desktop Kubernetes cluster, validate Kubernetes resources, or apply workloads with `kubectl`.
+Use this skill when the user asks to integrate an app or service with Kubernetes, prepare manifests, operate a local Docker Desktop Kubernetes cluster, connect to managed cloud Kubernetes, validate Kubernetes resources, or apply workloads with `kubectl`.
 
 ## Operating Principles
 
@@ -16,6 +16,8 @@ Use this skill when the user asks to integrate an app or service with Kubernetes
 - Never hard-code secret values into manifests. Use `Secret` placeholders, external secret tooling, or documented manual steps.
 - Validate before applying: `kubectl apply --dry-run=client -f <path>` and, when connected to a cluster, `kubectl diff -f <path>` or server-side dry runs when appropriate.
 - Keep local Docker Desktop assumptions separate from production cluster assumptions.
+- For cloud deployments, confirm the target provider, subscription/tenancy, region, cluster, namespace, image registry, and current `kubectl` context before applying.
+- Treat "AKE" as Azure Kubernetes Service unless the user clarifies a different provider. Azure's CLI surface is `az aks`.
 
 ## Docker Desktop Kubernetes Workflow
 
@@ -33,6 +35,44 @@ kubectl get nodes
 3. If Kubernetes is not enabled or no nodes are Ready, guide the user to Docker Desktop settings and the Kubernetes dashboard.
 4. Prefer the `kind` provisioner when the user wants multi-node local development or a selectable Kubernetes version. `kubeadm` is the older single-node option.
 5. If cluster behavior looks stale after Docker Desktop upgrades, suggest a reset only after preserving anything important in the local cluster.
+
+## Cloud Kubernetes Workflow
+
+Cloud deployments target existing managed Kubernetes clusters. Do not create or delete cloud resources unless the user explicitly asks for that lifecycle work.
+
+### OKE
+
+Oracle Container Engine for Kubernetes uses OCI CLI to write kubeconfig credentials:
+
+```powershell
+oci ce cluster create-kubeconfig --cluster-id <cluster-ocid> --file "$HOME\.kube\config" --region <region> --token-version 2.0.0 --kube-endpoint PUBLIC_ENDPOINT
+kubectl config current-context
+kubectl get nodes
+```
+
+Use `PRIVATE_ENDPOINT` instead of `PUBLIC_ENDPOINT` only when the developer is on a network path that can reach the private endpoint.
+
+### AKE / Azure AKS
+
+When the user says AKE, assume Azure Kubernetes Service unless they clarify another provider. Azure uses `az aks` commands:
+
+```powershell
+az aks get-credentials --resource-group <resource-group> --name <cluster-name> --overwrite-existing
+kubectl config current-context
+kubectl get nodes
+```
+
+Use admin credentials only when the user explicitly asks for administrative cluster credentials.
+
+### Cloud Deploy Safety
+
+Before applying to OKE or AKS:
+
+1. Confirm the current `kubectl` context is the intended cloud cluster and not `docker-desktop`.
+2. Confirm manifests reference a cloud-accessible image registry, not a purely local image tag.
+3. Use a namespace appropriate to the environment.
+4. Run a dry run and diff first.
+5. Apply only after the target context and namespace are clear.
 
 ## Project Integration Checklist
 
@@ -53,6 +93,10 @@ When integrating a project, produce or update:
 Use scripts from this plugin directory when they fit the task:
 
 - `scripts/check-docker-desktop-kubernetes.ps1`: verifies Docker, kubectl, current context, and node readiness.
+- `scripts/check-cloud-kubernetes-prereqs.ps1`: verifies provider CLI and kubectl prerequisites for OKE or Azure AKS.
+- `scripts/connect-oke-kubeconfig.ps1`: adds an OKE cluster to kubeconfig using OCI CLI.
+- `scripts/connect-aks-kubeconfig.ps1`: adds an Azure AKS cluster to kubeconfig using Azure CLI. Use this for AKE requests unless clarified.
+- `scripts/cloud-kubernetes-apply.ps1`: validates, diffs, and applies manifests to a non-local Kubernetes context.
 - `scripts/scaffold-kubernetes-project.ps1`: creates starter `k8s/` manifests for a service.
 - `scripts/kubernetes-apply.ps1`: validates, diffs, and applies a manifest directory.
 
@@ -68,6 +112,7 @@ Before finishing a Kubernetes integration task, report:
 
 - Files created or changed.
 - The target namespace, image name, ports, and service type.
+- For cloud deployments, the provider, cluster/context, region or resource group, and registry assumptions.
 - Validation performed and whether it passed.
 - The exact command to apply locally.
 - Any assumptions that must be adjusted for production.
